@@ -166,7 +166,7 @@ function HeroSection() {
         <img 
           src={heroImage}
           alt="Hero"
-          className="w-full h-full absolute inset-0 object-cover object-right"
+          className="w-full h-full absolute inset-0 object-cover object-right-top"
         />
         
         {/* Donate Button - Top Right */}

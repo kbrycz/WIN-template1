@@ -8,7 +8,7 @@ import ContactForm from './ContactForm'
  * 
  * ⬇️ SET THIS TO true TO ALWAYS SHOW THE POPUP (ignores localStorage) ⬇️
  */
-const ALWAYS_SHOW_POPUP = false
+const ALWAYS_SHOW_POPUP = true
 
 function PopupModal() {
   const [isOpen, setIsOpen] = useState(false)
@@ -70,7 +70,7 @@ function PopupModal() {
         }`}
         style={{ backgroundColor: '#273c75' }}
       >
-        <div className="p-10 md:p-14">
+        <div className="p-6 sm:p-10 md:p-14">
           {/* Close Button */}
           <button
             onClick={handleClose}

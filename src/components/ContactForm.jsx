@@ -80,7 +80,7 @@ function ContactForm({ compact = false, buttonText = "JOIN US", onSubmit }) {
             color: #273c75;
           }
         `}</style>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-3">
           <input
             type="text"
             name="firstName"
