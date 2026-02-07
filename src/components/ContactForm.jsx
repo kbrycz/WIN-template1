@@ -1,15 +1,15 @@
 import { useState } from 'react'
+import { colors } from '@/config/colors'
 
 /**
  * Reusable Contact Form Component
- * Used in both the popup modal and the signup section
- * 
- * @param {Object} props
+ * Used in both the popup modal and the signup section.
+ *
  * @param {boolean} props.compact - If true, uses a more compact 2-column layout
  * @param {string} props.buttonText - Text for the submit button
  * @param {function} props.onSubmit - Callback when form is submitted
  */
-function ContactForm({ compact = false, buttonText = "JOIN US", onSubmit }) {
+function ContactForm({ compact = false, buttonText = 'JOIN US', onSubmit }) {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -18,15 +18,9 @@ function ContactForm({ compact = false, buttonText = "JOIN US", onSubmit }) {
     zipCode: ''
   })
 
-  // Format phone number as (XXX) XXX-XXXX
   const formatPhoneNumber = (value) => {
-    // Remove all non-numeric characters
     const phoneNumber = value.replace(/\D/g, '')
-    
-    // Limit to 10 digits
     const limitedNumber = phoneNumber.slice(0, 10)
-    
-    // Format based on length
     if (limitedNumber.length === 0) return ''
     if (limitedNumber.length <= 3) return `(${limitedNumber}`
     if (limitedNumber.length <= 6) return `(${limitedNumber.slice(0, 3)}) ${limitedNumber.slice(3)}`
@@ -35,7 +29,6 @@ function ContactForm({ compact = false, buttonText = "JOIN US", onSubmit }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    
     if (name === 'phone') {
       setFormData(prev => ({ ...prev, [name]: formatPhoneNumber(value) }))
     } else {
@@ -45,114 +38,39 @@ function ContactForm({ compact = false, buttonText = "JOIN US", onSubmit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (onSubmit) {
-      onSubmit(formData)
-    }
-    // Reset form after submission
-    setFormData({
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      zipCode: ''
-    })
+    if (onSubmit) onSubmit(formData)
+    setFormData({ firstName: '', lastName: '', email: '', phone: '', zipCode: '' })
   }
 
-  const inputBaseClasses = "w-full px-4 py-3 rounded-md bg-white border-2 text-neutral-900 focus:outline-none transition-all shadow-sm text-lg"
-  
+  const inputBaseClasses = 'w-full px-4 py-3 rounded-md bg-white border-2 text-neutral-900 focus:outline-none transition-all shadow-sm text-lg'
+
   const handleFocus = (e) => {
-    e.target.style.borderColor = '#ffffff'
+    e.target.style.borderColor = colors.white
     e.target.style.boxShadow = '0 0 0 2px rgba(255, 255, 255, 0.3)'
   }
 
   const handleBlur = (e) => {
-    e.target.style.borderColor = '#ffffff'
+    e.target.style.borderColor = colors.white
     e.target.style.boxShadow = 'none'
   }
 
+  const placeholderStyle = `input::placeholder { font-weight: 700; color: ${colors.primary[600]}; }`
+
   if (compact) {
-    // Compact layout for popup modal - stacked on mobile, 2 column grid on larger screens
     return (
       <form className="space-y-3" onSubmit={handleSubmit}>
-        <style>{`
-          input::placeholder {
-            font-weight: 700;
-            color: #273c75;
-          }
-        `}</style>
+        <style>{placeholderStyle}</style>
         <div className="grid grid-cols-2 gap-3">
-          <input
-            type="text"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            placeholder="First Name"
-            className={inputBaseClasses}
-            style={{ borderColor: '#ffffff' }}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            required
-          />
-          <input
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            placeholder="Last Name"
-            className={inputBaseClasses}
-            style={{ borderColor: '#ffffff' }}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            required
-          />
+          <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" className={inputBaseClasses} style={{ borderColor: colors.white }} onFocus={handleFocus} onBlur={handleBlur} required />
+          <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" className={inputBaseClasses} style={{ borderColor: colors.white }} onFocus={handleFocus} onBlur={handleBlur} required />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Email"
-            className={inputBaseClasses}
-            style={{ borderColor: '#ffffff' }}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            required
-          />
-          <input
-            type="tel"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            placeholder="Phone"
-            maxLength="14"
-            pattern="\(\d{3}\) \d{3}-\d{4}"
-            className={inputBaseClasses}
-            style={{ borderColor: '#ffffff' }}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            required
-          />
+          <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" className={inputBaseClasses} style={{ borderColor: colors.white }} onFocus={handleFocus} onBlur={handleBlur} required />
+          <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" maxLength="14" pattern="\(\d{3}\) \d{3}-\d{4}" className={inputBaseClasses} style={{ borderColor: colors.white }} onFocus={handleFocus} onBlur={handleBlur} required />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <input
-            type="text"
-            name="zipCode"
-            value={formData.zipCode}
-            onChange={handleChange}
-            placeholder="ZIP Code"
-            pattern="[0-9]{5}"
-            maxLength="5"
-            className={inputBaseClasses}
-            style={{ borderColor: '#ffffff' }}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            required
-          />
-          <button
-            type="submit"
-            className="w-full px-4 py-3 rounded-md bg-secondary-600 hover:bg-secondary-700 text-white font-semibold transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-400 shadow-lg text-base uppercase tracking-wide"
-          >
+          <input type="text" name="zipCode" value={formData.zipCode} onChange={handleChange} placeholder="ZIP Code" pattern="[0-9]{5}" maxLength="5" className={inputBaseClasses} style={{ borderColor: colors.white }} onFocus={handleFocus} onBlur={handleBlur} required />
+          <button type="submit" className="w-full px-4 py-3 rounded-md bg-secondary-600 hover:bg-secondary-700 text-white font-semibold transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-400 shadow-lg text-base uppercase tracking-wide">
             {buttonText}
           </button>
         </div>
@@ -160,83 +78,15 @@ function ContactForm({ compact = false, buttonText = "JOIN US", onSubmit }) {
     )
   }
 
-  // Full layout for signup section - stacked inputs
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
-      <style>{`
-        input::placeholder {
-          font-weight: 700;
-          color: #273c75;
-        }
-      `}</style>
-      <input
-        type="text"
-        name="firstName"
-        value={formData.firstName}
-        onChange={handleChange}
-        placeholder="First Name"
-        className={inputBaseClasses}
-        style={{ borderColor: '#ffffff' }}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        required
-      />
-      <input
-        type="text"
-        name="lastName"
-        value={formData.lastName}
-        onChange={handleChange}
-        placeholder="Last Name"
-        className={inputBaseClasses}
-        style={{ borderColor: '#ffffff' }}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        required
-      />
-      <input
-        type="email"
-        name="email"
-        value={formData.email}
-        onChange={handleChange}
-        placeholder="Email"
-        className={inputBaseClasses}
-        style={{ borderColor: '#ffffff' }}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        required
-      />
-      <input
-        type="tel"
-        name="phone"
-        value={formData.phone}
-        onChange={handleChange}
-        placeholder="Phone Number"
-        maxLength="14"
-        pattern="\(\d{3}\) \d{3}-\d{4}"
-        className={inputBaseClasses}
-        style={{ borderColor: '#ffffff' }}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        required
-      />
-      <input
-        type="text"
-        name="zipCode"
-        value={formData.zipCode}
-        onChange={handleChange}
-        placeholder="ZIP Code"
-        pattern="[0-9]{5}"
-        maxLength="5"
-        className={inputBaseClasses}
-        style={{ borderColor: '#ffffff' }}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        required
-      />
-      <button
-        type="submit"
-        className="w-full px-4 py-3 rounded-md bg-secondary-600 hover:bg-secondary-700 text-white font-semibold transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-400 shadow-lg text-base uppercase tracking-wide"
-      >
+      <style>{placeholderStyle}</style>
+      <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" className={inputBaseClasses} style={{ borderColor: colors.white }} onFocus={handleFocus} onBlur={handleBlur} required />
+      <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" className={inputBaseClasses} style={{ borderColor: colors.white }} onFocus={handleFocus} onBlur={handleBlur} required />
+      <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" className={inputBaseClasses} style={{ borderColor: colors.white }} onFocus={handleFocus} onBlur={handleBlur} required />
+      <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone Number" maxLength="14" pattern="\(\d{3}\) \d{3}-\d{4}" className={inputBaseClasses} style={{ borderColor: colors.white }} onFocus={handleFocus} onBlur={handleBlur} required />
+      <input type="text" name="zipCode" value={formData.zipCode} onChange={handleChange} placeholder="ZIP Code" pattern="[0-9]{5}" maxLength="5" className={inputBaseClasses} style={{ borderColor: colors.white }} onFocus={handleFocus} onBlur={handleBlur} required />
+      <button type="submit" className="w-full px-4 py-3 rounded-md bg-secondary-600 hover:bg-secondary-700 text-white font-semibold transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-400 shadow-lg text-base uppercase tracking-wide">
         {buttonText}
       </button>
     </form>

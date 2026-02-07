@@ -1,4 +1,3 @@
-import './App.css'
 import HeroSection from './components/HeroSection'
 import ImageTextSection from './components/ImageTextSection'
 import AboutSection from './components/AboutSection'
