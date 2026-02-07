@@ -83,7 +83,7 @@ function PopupModal() {
           </button>
 
           {/* Heading */}
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-white text-center mb-8 leading-tight pr-8">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-white text-center mb-4 md:mb-8 leading-[1.15] md:leading-tight pr-8">
             Join our movement and help build a stronger community together.
           </h2>
 
